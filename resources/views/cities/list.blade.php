@@ -22,12 +22,12 @@
                     <td colspan="4">Không có dữ liệu</td>
                 </tr>
                 @else
-                @foreach($cities as $key => $citie)
+                @foreach($cities as $key => $city)
                 <tr>
                     <th scope="row">{{ ++$key }}</th>
-                    <td>{{ $citie->name }}</td>
-                    <td>{{ count($citie->customers) }}</td>
-                    <td><a href="">sửa</a></td>
+                    <td>{{ $city->name }}</td>
+                    <td>{{ count($city->customers) }}</td>
+                    <td><a href="{{ route('cities.edit',$city->id) }}">sửa</a></td>
                     <td><a href="" class="text-danger" onclick="return confirm('Bạn chắc chắn muốn xóa?')">xóa</a></td>
                 </tr>
                 @endforeach

@@ -12,12 +12,19 @@ class CityController extends Controller
     {
         $cities =  City::all();
         return view('cities.list', compact('cities'));
-    }# code...
+    }
 
     public function create()
     {
-        return view('cities.create');# code...
+        return view('cities.create');
     }
+
+    public function edit($id)
+    {
+        $city = City::findOrFail($id);
+        return view('cities.edit',compact('city'));
+    }
+
 
     public function store(Request $request)
     {
@@ -25,7 +32,7 @@ class CityController extends Controller
         $city->name = $request->name;
         $city->save();
 
-        return redirect()->route('customers.index');
+        return redirect()->route('cities.index');
     }
 }
 
