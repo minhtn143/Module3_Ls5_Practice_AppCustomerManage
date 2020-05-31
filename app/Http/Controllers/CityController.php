@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\City;
+use App\Customer;
 
 use Illuminate\Http\Request;
 
@@ -31,6 +32,15 @@ class CityController extends Controller
         $city = new City();
         $city->name = $request->name;
         $city->save();
+
+        return redirect()->route('cities.index');
+    }
+    public function destroy($id)
+    {
+        $city = City::findOrFail($id);
+
+        $city->customer()->delete();
+        $city->delete();
 
         return redirect()->route('cities.index');
     }
