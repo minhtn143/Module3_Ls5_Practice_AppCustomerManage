@@ -11,5 +11,10 @@ class CityController extends Controller
     {
         $cities =  City::all();
         return view('cities.list', compact('cities'));
+    }# code...
+
+    public function create()
+    {
+        return view('cities.create');# code...
     }
 }
