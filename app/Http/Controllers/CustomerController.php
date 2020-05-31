@@ -28,7 +28,8 @@ class CustomerController extends Controller
     public function index()
     {
         $customers = $this->customerService->getAllCustomer();
-        return view('customers.list', compact('customers'));
+        $cities = City::all();
+        return view('customers.list', compact('customers','cities'));
     }
 
     /**
@@ -133,4 +134,18 @@ class CustomerController extends Controller
     {
         // TODO: Implement save() method.
     }
+
+    public function filterByCity(Request $request){
+        $idCity = $request->input('city_id');
+      
+        //kiem tra city co ton tai khong
+        $cityFilter = City::findOrFail($idCity);
+      
+        //lay ra tat ca customer cua cityFiler
+        $customers = Customer::where('city_id', $cityFilter->id)->get();
+        $totalCustomerFilter = count($customers);
+        $cities = City::all();
+      
+        return view('customers.list', compact('customers', 'cities', 'totalCustomerFilter', 'cityFilter'));
+      }
 }
