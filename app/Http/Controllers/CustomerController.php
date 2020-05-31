@@ -70,7 +70,8 @@ class CustomerController extends Controller
     public function edit($id)
     {
         $customer = Customer::findOrFail($id);
-        return view('customers.edit', compact('customer'));
+        $cities = City::all();
+        return view('customers.edit', compact('customer','cities'));
     }
 
     /**
@@ -86,6 +87,7 @@ class CustomerController extends Controller
         $customer->name     = $request->input('name');
         $customer->email    = $request->input('email');
         $customer->dob      = $request->input('dob');
+        $customer->city_id  = $request->input('city_id');
         $customer->save();
 
         //dung session de dua ra thong bao
