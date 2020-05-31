@@ -25,7 +25,7 @@ class CityController extends Controller
         $city->name = $request->name;
         $city->save();
 
-        return redirect()->route('customer.index');
+        return redirect()->route('customers.index');
     }
 }
 
