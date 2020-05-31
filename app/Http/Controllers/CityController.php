@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\City;
+
 use Illuminate\Http\Request;
 
 class CityController extends Controller
@@ -17,4 +18,18 @@ class CityController extends Controller
     {
         return view('cities.create');# code...
     }
+
+    public function store(Request $request)
+    {
+        $city = new City();
+        $city->name = $request->name;
+        $city->save();
+
+        return redirect()->route('customer.index');
+    }
 }
+
+
+
+
+
