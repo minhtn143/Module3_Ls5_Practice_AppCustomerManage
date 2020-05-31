@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\City;
 use Illuminate\Http\Request;
 use http\Env\Response;
 use Illuminate\Support\Facades\Session;
@@ -24,7 +25,8 @@ class CustomerController extends Controller
      * @return Response
      */
 
-    public function index(){
+    public function index()
+    {
         $customers = $this->customerService->getAllCustomer();
         return view('customers.list', compact('customers'));
     }
@@ -35,8 +37,10 @@ class CustomerController extends Controller
      * @return Response
      */
 
-    public function create(){
-        return view('customers.create');
+    public function create()
+    {
+        $cities = City::all();
+        return view('customers.create',compact('cities'));
     }
 
     /**
@@ -45,10 +49,15 @@ class CustomerController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function store(Request $request){
-        $this->customerService->addCustomer($request);
-
-        Session::flash('success', 'Create new customer success!');
+    public function store(Request $request)
+    {
+        $customer = new Customer();
+        $customer->name     = $request->input('name');
+        $customer->email    = $request->input('email');
+        $customer->dob      = $request->input('dob');
+        $customer->city_id  = $request->input('city_id');
+        $customer->save();
+      
         return redirect()->route('customers.index');
     }
 
@@ -58,7 +67,8 @@ class CustomerController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function edit($id){
+    public function edit($id)
+    {
         $customer = Customer::findOrFail($id);
         return view('customers.edit', compact('customer'));
     }
@@ -70,7 +80,8 @@ class CustomerController extends Controller
      * @param int $id
      * @return Response
      */
-    public function update(Request $request, $id){
+    public function update(Request $request, $id)
+    {
         $customer = Customer::findOrFail($id);
         $customer->name     = $request->input('name');
         $customer->email    = $request->input('email');
@@ -89,7 +100,8 @@ class CustomerController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function destroy($id){
+    public function destroy($id)
+    {
         $customer = Customer::findOrFail($id);
         $customer->delete();
 
