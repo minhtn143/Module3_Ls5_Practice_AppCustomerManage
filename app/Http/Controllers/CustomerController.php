@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Session;
 use App\Customer;
 use App\Http\Services\CustomerService;
 
-
 class CustomerController extends Controller
 {
     protected $customerService;

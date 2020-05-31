@@ -64,6 +64,7 @@
               </tbody>
           </table>
           <a class="btn btn-primary" href="{{ route('customers.create') }}">Thêm mới</a>
+          {{ $customers->links() }}
       </div>
  
       <!-- Modal -->

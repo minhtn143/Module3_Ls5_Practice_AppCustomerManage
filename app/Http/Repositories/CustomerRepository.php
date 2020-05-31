@@ -4,6 +4,7 @@
 namespace App\Http\Repositories;
 
 use App\Customer;
+use Illuminate\Database\Eloquent\Collection;
 
 
 class CustomerRepository
@@ -18,7 +19,7 @@ class CustomerRepository
 
     public function getAll()
     {
-        return $this->customer->all();
+        return $this->customer->paginate(5);
 
     }
 
