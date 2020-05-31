@@ -28,7 +28,7 @@ class CustomerController extends Controller
     {
         $customers = $this->customerService->getAllCustomer();
         $cities = City::all();
-        return view('customers.list', compact('customers','cities'));
+        return view('customers.list', compact('customers', 'cities'));
     }
 
     /**
@@ -40,7 +40,7 @@ class CustomerController extends Controller
     public function create()
     {
         $cities = City::all();
-        return view('customers.create',compact('cities'));
+        return view('customers.create', compact('cities'));
     }
 
     /**
@@ -57,7 +57,7 @@ class CustomerController extends Controller
         $customer->dob      = $request->input('dob');
         $customer->city_id  = $request->input('city_id');
         $customer->save();
-      
+
         return redirect()->route('customers.index');
     }
 
@@ -71,7 +71,7 @@ class CustomerController extends Controller
     {
         $customer = Customer::findOrFail($id);
         $cities = City::all();
-        return view('customers.edit', compact('customer','cities'));
+        return view('customers.edit', compact('customer', 'cities'));
     }
 
     /**
@@ -134,17 +134,32 @@ class CustomerController extends Controller
         // TODO: Implement save() method.
     }
 
-    public function filterByCity(Request $request){
+    public function filterByCity(Request $request)
+    {
         $idCity = $request->input('city_id');
-      
+
         //kiem tra city co ton tai khong
         $cityFilter = City::findOrFail($idCity);
-      
+
         //lay ra tat ca customer cua cityFiler
         $customers = Customer::where('city_id', $cityFilter->id)->get();
         $totalCustomerFilter = count($customers);
         $cities = City::all();
-      
+
         return view('customers.list', compact('customers', 'cities', 'totalCustomerFilter', 'cityFilter'));
-      }
+    }
+
+    public function search(Request $request)
+    {
+        $keyword = $request->input('keyword');
+        
+        if (!$keyword) {
+            return redirect()->route('customers.index');
+        }
+        $customers = Customer::where('name', 'LIKE', '%' . $keyword . '%')->paginate(5);
+
+        $cities = City::all();
+
+        return view('customers.list', compact('customers', 'cities'));
+    }
 }
